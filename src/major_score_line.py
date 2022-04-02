@@ -53,12 +53,13 @@ actions.perform()
 # 下拉的时候要判断这个院校是否已经点击,如果在就忽略，如果不在就执行，并把这个college加到college_list里去
 college_list = []
 college_name = ""
-if college_name not in college_list:
-    college_list.append(college_name)
+
 time.sleep(3)
 college_list_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/recycleView")
 for college_element in college_list_element.find_elements(by=AppiumBy.ID,
                                                           value="com.eagersoft.youzy.youzy:id/menu"):
+    if college_name not in college_list:
+        college_list.append(college_name)
     college_element.click()
     el15 = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_history")
     el15.click()
