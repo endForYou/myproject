@@ -6,7 +6,7 @@ from telnetlib import EC
 
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
-
+from mylib import *
 # For W3C actions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.actions import interaction
@@ -21,7 +21,7 @@ caps = {"platformName": "Android", "appium:platformVersion": "11", "appium:devic
         "appium:appPackage": "com.eagersoft.youzy.youzy", "appium:appActivity": ".mvvm.ui.launch.LaunchActivity",
         "appium:ensureWebviewsHavePages": True, "appium:nativeWebScreenshot": True, "appium:newCommandTimeout": 3600,
         "appium:connectHardwareKeyboard": True, 'noReset': True, 'fullReset': False,
-        'settings[waitForIdleTimeout]': 100}
+        'settings[waitForIdleTimeout]': 10}
 driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
 
 driver.implicitly_wait(10)
@@ -43,6 +43,16 @@ find_all_college_element.click()
 # element = WebDriverWait(driver, 10).until(
 #     EC.presence_of_element_located((By.ID, "myDynamicElement"))
 # )
+
+# 下拉的时候要判断这个院校是否已经点击,如果在就忽略，如果不在就执行，并把这个college加到college_list里去
+college_list = []
+
+time.sleep(3)
+
+
+
+
+# 执行完第一次8个学校后开始下拉刷新
 actions = ActionChains(driver)
 actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
 actions.w3c_actions.pointer_action.move_to_location(392, 2227)
@@ -50,106 +60,13 @@ actions.w3c_actions.pointer_action.pointer_down()
 actions.w3c_actions.pointer_action.move_to_location(516, 551)
 actions.w3c_actions.pointer_action.release()
 actions.perform()
-# 下拉的时候要判断这个院校是否已经点击,如果在就忽略，如果不在就执行，并把这个college加到college_list里去
-college_list = []
-college_name = ""
-
-time.sleep(3)
-college_list_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/recycleView")
-for college_element in college_list_element.find_elements(by=AppiumBy.ID,
-                                                          value="com.eagersoft.youzy.youzy:id/menu"):
-    if college_name not in college_list:
-        college_list.append(college_name)
-    college_element.click()
-    el15 = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_history")
-    el15.click()
-    # actions = ActionChains(driver)
-    # actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-    # actions.w3c_actions.pointer_action.move_to_location(540, 238)
-    # actions.w3c_actions.pointer_action.pointer_down()
-    # actions.w3c_actions.pointer_action.pause(0.1)
-    # actions.w3c_actions.pointer_action.release()
-
-    driver.tap([(540, 238), ])
-    # actions.perform()
-    # 点击专业分数线
-    # "<div class="_selected-element-table-cells_619e8">com.eagersoft.youzy.youzy:id/tab</div>"
-    # "androidx.appcompat.app.ActionBar$Tab" tab2 专业分数线 tab3 招生计划
-    # major_score_line_tab_el = \
-    # el16=driver.find_elements(by=AppiumBy.CLASS_NAME, value="androidx.appcompat.app.ActionBar$Tab")[2]
-    # el16.click()
-
-    # 点击物理历史
-    driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
-
-    # 分数线切换
-
-    grade_list = driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")
-
-    # 点击招生方向
-    driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
-    enroll_direction_list = driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/college_name")
-    for enroll_direction in enroll_direction_list:
-        # 点击某个招生方向
-        enroll_direction.click()
-        # 专业分数线列表
-        major_score_line_list_element = driver.find_element(by=AppiumBy.ID,
-                                                            value="com.eagersoft.youzy.youzy:id/recycler_view")
-        for major_score_line_element in major_score_line_list_element.find_elements(by=AppiumBy.ID,
-                                                                                    value="com.eagersoft.youzy.youzy:id"
-                                                                                          "/parent"):
-            # print(major_score_line_element, 1111111111)
-            major_name = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                               value="com.eagersoft.youzy.youzy:id/tv_major_name").text
-            subject_need = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_choose").text
-            enroll_count = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_enrollment").text
-            highest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                  value="com.eagersoft.youzy.youzy:id/tv_score").text
-            lowest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_seating").text
-            print(major_name)
-            print(subject_need)
-            print(enroll_count)
-            print(highest_score)
-            print(lowest_score)
-        driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
-    # 点击本科专科
-    driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
-    # 点击专科（默认本科）
-    driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
-        1].click()
-    # 点击招生方向
-
-    driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
-    enroll_direction_list = driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/college_name")
-    for enroll_direction in enroll_direction_list:
-        # 点击某个招生方向
-        enroll_direction.click()
-        # 专业分数线列表
-        major_score_line_list_element = driver.find_element(by=AppiumBy.ID,
-                                                            value="com.eagersoft.youzy.youzy:id/recycler_view")
-        for major_score_line_element in major_score_line_list_element.find_elements(by=AppiumBy.ID,
-                                                                                    value="com.eagersoft.youzy.youzy:id"
-                                                                                          "/parent"):
-            # print(major_score_line_element, 1111111111)
-            major_name = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                               value="com.eagersoft.youzy.youzy:id/tv_major_name").text
-            subject_need = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_choose").text
-            enroll_count = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_enrollment").text
-            highest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                  value="com.eagersoft.youzy.youzy:id/tv_score").text
-            lowest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                                                                 value="com.eagersoft.youzy.youzy:id/tv_seating").text
-            print(major_name)
-            print(subject_need)
-            print(enroll_count)
-            print(highest_score)
-            print(lowest_score)
-        driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
-    # 点击历史（默认物理）
 db.close()
 driver.quit()
+
+# 招生计划
+# code com.eagersoft.youzy.youzy:id/tv_code
+# major_name com.eagersoft.youzy.youzy:id/tv_college
+# subject com.eagersoft.youzy.youzy:id/tv_choose
+# plan com.eagersoft.youzy.youzy:id/tv_plan
+# schooling  com.eagersoft.youzy.youzy:id/tv_schooling
+# cost com.eagersoft.youzy.youzy:id/tv_cost
