@@ -25,12 +25,12 @@ class MajorScoreLine:
 
         time.sleep(3)
         while True:
-            # if self.is_repeat_page():
-            #     break
+            if self.is_repeat_page():
+                break
             self.get_one_page_major_score_line()
             # print(111111)
             self.next_page()
-            break
+
         self.driver.quit()
 
     def is_repeat_page(self):
@@ -53,6 +53,29 @@ class MajorScoreLine:
         actions.perform()
         time.sleep(1)
 
+    def detail_next_page(self):
+        """
+        这里需要设置下距离
+        :return:
+        """
+        time.sleep(1)
+        driver = self.driver
+        actions = ActionChains(driver)
+        actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
+        actions.w3c_actions.pointer_action.move_to_location(439, 1480)
+        actions.w3c_actions.pointer_action.pointer_down()
+        actions.w3c_actions.pointer_action.move_to_location(439, 414)
+        actions.w3c_actions.pointer_action.release()
+        actions.perform()
+
+    def is_repeat_detail_page(self):
+        college_elements = self.driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/name")
+        for college in college_elements:
+            college_name = college.text
+            if college_name not in self.college_list:
+                return False
+        return True
+
     def get_one_tab_major_score_line(self):
         driver = self.driver
         time.sleep(1)
@@ -73,21 +96,20 @@ class MajorScoreLine:
                 for major_score_line_element in major_score_line_list_element.find_elements(by=AppiumBy.ID,
                                                                                             value="com.eagersoft.youzy.youzy:id"
                                                                                                   "/parent"):
-                    pass
-                    # major_name = major_score_line_element.find_element(by=AppiumBy.ID,
-                    #                                                    value="com.eagersoft.youzy.youzy:id/tv_major_name").text
-                    # if major_name not in major_list:
-                    #     major_list.append(major_name)
-                    # else:
-                    #     continue
-                    # subject_need = major_score_line_element.find_element(by=AppiumBy.ID,
-                    #                                                      value="com.eagersoft.youzy.youzy:id/tv_choose").text
-                    # enroll_count = major_score_line_element.find_element(by=AppiumBy.ID,
-                    #                                                      value="com.eagersoft.youzy.youzy:id/tv_enrollment").text
-                    # highest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                    #                                                       value="com.eagersoft.youzy.youzy:id/tv_score").text
-                    # lowest_score = major_score_line_element.find_element(by=AppiumBy.ID,
-                    #                                                      value="com.eagersoft.youzy.youzy:id/tv_seating").text
+                    major_name = major_score_line_element.find_element(by=AppiumBy.ID,
+                                                                       value="com.eagersoft.youzy.youzy:id/tv_major_name").text
+                    if major_name not in major_list:
+                        major_list.append(major_name)
+                    else:
+                        continue
+                    subject_need = major_score_line_element.find_element(by=AppiumBy.ID,
+                                                                         value="com.eagersoft.youzy.youzy:id/tv_choose").text
+                    enroll_count = major_score_line_element.find_element(by=AppiumBy.ID,
+                                                                         value="com.eagersoft.youzy.youzy:id/tv_enrollment").text
+                    highest_score = major_score_line_element.find_element(by=AppiumBy.ID,
+                                                                          value="com.eagersoft.youzy.youzy:id/tv_score").text
+                    lowest_score = major_score_line_element.find_element(by=AppiumBy.ID,
+                                                                         value="com.eagersoft.youzy.youzy:id/tv_seating").text
                 # 循环的最后需要再次点击招生方向切换
                 driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
                 # 点击close

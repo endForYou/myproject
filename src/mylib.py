@@ -26,3 +26,5 @@ def is_element_present(driver, xpath):
     else:
         # 没有发生异常，表示在页面中找到了该元素，返回True
         return True
+def insert_data_to_major_score_line():
+    pass
