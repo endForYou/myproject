@@ -65,3 +65,14 @@ def get_all_colleges(cursor: pymysql.cursors.DictCursor):
         college_name = data['college_name']
         res.append(college_name)
     return res
+
+
+def get_all_colleges_yn(cursor: pymysql.cursors.DictCursor, province):
+    sql = "select distinct collegeName from yzy_enroll_major_score_line_json where province=%s"
+    cursor.execute(sql, province)
+    result = cursor.fetchall()
+    res = []
+    for data in result:
+        college_name = data['collegeName']
+        res.append(college_name)
+    return res

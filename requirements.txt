@@ -4,3 +4,5 @@ SauceClient~=1.0.0
 
 selenium~=4.0.0
 PyMySQL~=1.0.2
+
+requests~=2.27.1

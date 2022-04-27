@@ -16,6 +16,10 @@ class MajorScoreLine:
         self.college_list = []
 
     def execute_all(self):
+        """
+        如果一次性没跑完，可能需要跑的时候先翻页
+        :return:
+        """
         driver = self.driver
         find_college_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/ll_btn_zdx")
         find_college_element.click()
