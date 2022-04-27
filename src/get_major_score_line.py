@@ -31,7 +31,7 @@ class MajorScoreLine:
         time.sleep(3)
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
-        for i in range(0, 25):
+        for i in range(0, 150):
             self.next_page()
         while True:
             if self.is_repeat_page():
