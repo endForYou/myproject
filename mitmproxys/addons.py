@@ -10,7 +10,7 @@ db = pymysql.connect(user="root", password="rYa+wq10dFTWzYz8FeZgsWRygyKfLKULSRdK
 
 cursor = db.cursor(pymysql.cursors.DictCursor)
 
-sql = "insert into yzy_enroll_major_score_line_json(url,json_data,params,province,collegeName) values (%s,%s,%s,%s,%s)"
+sql = "insert into yzy_enroll_major_score_line_json_hn(url,json_data,params,province,collegeName) values (%s,%s,%s,%s,%s)"
 college_sql = "insert into yzy_college_json_2022_new(url,json_data,params,province) values (%s,%s,%s,%s)"
 
 # college_sql = """
