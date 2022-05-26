@@ -26,7 +26,7 @@ class HnMajorScoreLine(Base):
         time.sleep(3)
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
-        colleges = get_all_colleges_yn(cursor, province="广东")
+        colleges = get_all_colleges_hn(cursor, province="湖南")
         for i in range(0, 500):
             self.get_one_page_major_score_line(colleges)
             self.next_page()
