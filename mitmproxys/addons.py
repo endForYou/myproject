@@ -38,6 +38,7 @@ def response(flow):
     college_detail_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.basiclib.api.college.bycode.get'
 
     college_rank_url = 'https://uwf7de983aad7a717eb.youzy.cn/youzy.dms.basiclib.api.college.ranking.byyear.query'
+
     # 筛选出以上面url为开头的url
     # print(flow.request)
 

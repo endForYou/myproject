@@ -8,12 +8,10 @@ from appium import webdriver
 
 from mylib import *
 import db
+from src.base import Base
 
 
-class Colleges:
-    def __init__(self, driver):
-        self.driver = driver
-        self.college_list = []
+class Colleges(Base):
 
     def execute_all(self):
         """
@@ -35,17 +33,6 @@ class Colleges:
             self.next_page()
 
         self.driver.quit()
-
-    def next_page(self):
-        driver = self.driver
-        actions = ActionChains(driver)
-        actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-        actions.w3c_actions.pointer_action.move_to_location(439, 1480)
-        actions.w3c_actions.pointer_action.pointer_down()
-        actions.w3c_actions.pointer_action.move_to_location(439, 414)
-        actions.w3c_actions.pointer_action.release()
-        actions.perform()
-        time.sleep(1)
 
 
 if __name__ == "__main__":
