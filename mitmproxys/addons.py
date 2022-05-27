@@ -35,7 +35,7 @@ def response(flow):
     major_score_line_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.datalib.api.enrolldata.enter.profession.v2.get'
     college_score_line_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.datalib.api.enrolldata.enter.college.v2.get'
     college_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.basiclib.api.college.query'
-    college_detail_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.basiclib.api.college.bycode.get'
+    college_detail_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.basiclib.api.college.bycodmte.get'
 
     college_rank_url = 'https://uwf7de983aad7a717eb.youzy.cn/youzy.dms.basiclib.api.college.ranking.byyear.query'
 

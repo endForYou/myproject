@@ -17,7 +17,7 @@ class HnMajorScoreLine(Base):
         driver = self.driver
 
         time.sleep(10)
-        find_college_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/ll_btn_zdx")
+        find_college_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/iv_logo")
         find_college_element.click()
         # 点击查所有大学
         find_all_college_element = driver.find_element(by=AppiumBy.ID,
@@ -27,6 +27,8 @@ class HnMajorScoreLine(Base):
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
         colleges = get_all_colleges_hn(cursor, province="湖南")
+        for i in range(0, 14):
+            self.next_page()
         for i in range(0, 500):
             self.get_one_page_major_score_line(colleges)
             self.next_page()
@@ -74,7 +76,7 @@ class HnMajorScoreLine(Base):
             else:
                 college = college_element.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/name").text
                 college_name = college.split(" ")[0]
-                if college_name in colleges:
+                if college_name in colleges or college_name == "中央戏剧学院"or college_name == "中国美术学院":
                     continue
                 if college_name not in self.college_list:
                     self.college_list.append(college_name)
