@@ -8,12 +8,10 @@ from appium import webdriver
 
 from mylib import *
 import db
+from src.base import Base
 
 
-class YnEnrollStudentPlanLine:
-    def __init__(self, driver):
-        self.driver = driver
-        self.college_list = []
+class YnEnrollStudentPlanLine(Base):
 
     def execute_all(self):
         driver = self.driver
@@ -27,35 +25,15 @@ class YnEnrollStudentPlanLine:
         time.sleep(3)
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
-        colleges = get_all_colleges_yn(cursor)
+        colleges = get_all_colleges(cursor, province="云南", data_type="enroll_plan")
         # for i in range(0, 25):
         #     self.next_page()
-        for i in range(0,150):
-            self.next_page()
-        for i in range(0, 300):
-            self.get_one_page_major_score_line(colleges)
+
+        for i in range(0, 500):
+            self.get_one_page_enroll_student_plan(colleges)
             self.next_page()
 
         self.driver.quit()
-
-    # def is_repeat_page(self):
-    #     college_elements = self.driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/name")
-    #     for college in college_elements:
-    #         college_name = college.text
-    #         if college_name not in self.college_list:
-    #             return False
-    #     return True
-
-    def next_page(self):
-        driver = self.driver
-        actions = ActionChains(driver)
-        actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-        actions.w3c_actions.pointer_action.move_to_location(439, 1200)
-        actions.w3c_actions.pointer_action.pointer_down()
-        actions.w3c_actions.pointer_action.move_to_location(439, 414)
-        actions.w3c_actions.pointer_action.release()
-        actions.perform()
-        time.sleep(1)
 
     def is_repeat_detail_page(self, major_name_list):
         if not is_element_exist(self.driver, "com.eagersoft.youzy.youzy:id/recycler_view"):

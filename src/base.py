@@ -36,3 +36,17 @@ class Base:
         find_all_college_element.click()
 
         time.sleep(2)
+
+    def is_repeat_detail_page(self, major_name_list):
+        if not is_element_exist(self.driver, "com.eagersoft.youzy.youzy:id/recycler_view"):
+            return True
+        major_elements = self.driver.find_element(by=AppiumBy.ID,
+                                                  value="com.eagersoft.youzy.youzy:id/recycler_view").find_elements(
+            by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_major_name")
+        for major in major_elements:
+
+            major_name = major.text
+
+            if major_name not in major_name_list:
+                return False
+        return True

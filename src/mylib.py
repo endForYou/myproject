@@ -56,20 +56,15 @@ def insert_data_to_major_score_line(cursor: pymysql.cursors.DictCursor, params: 
     cursor.executemany(insert_sql, params)
 
 
-def get_all_colleges(cursor: pymysql.cursors.DictCursor):
-    sql = "select distinct college_name from yzy_major_score_ngk"
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    res = []
-    for data in result:
-        college_name = data['college_name']
-        res.append(college_name)
-    return res
+def insert_data_to_yzy_college(cursor: pymysql.cursors.DictCursor, college_name, province, data_type):
+    params = (college_name, province, data_type)
+    college_sql = "insert into yzy_college_crawl(college_name,provinceName,data_type) values (%s,%s,%s)"
+    cursor.execute(college_sql, params)
 
 
-def get_all_colleges_yn(cursor: pymysql.cursors.DictCursor, province):
-    sql = "select distinct collegeName from yzy_enroll_major_score_line_json where province=%s"
-    cursor.execute(sql, province)
+def get_all_colleges(cursor: pymysql.cursors.DictCursor, province, data_type):
+    sql = "select distinct collegeName from yzy_college_crawl where provinceName=%s and data_type=%s"
+    cursor.execute(sql, (province, data_type))
     result = cursor.fetchall()
     res = []
     for data in result:
@@ -78,9 +73,9 @@ def get_all_colleges_yn(cursor: pymysql.cursors.DictCursor, province):
     return res
 
 
-def get_all_colleges_hn(cursor: pymysql.cursors.DictCursor, province):
-    sql = "select distinct collegeName from yzy_enroll_major_score_line_json_hn where province=%s"
-    cursor.execute(sql, province)
+def get_all_colleges_of_no_need(cursor: pymysql.cursors.DictCursor, province, data_type):
+    sql = "select distinct collegeName from yzy_college_crawl where provinceName=%s and data_type=%s and is_no_need_crawl=1"
+    cursor.execute(sql, (province, data_type))
     result = cursor.fetchall()
     res = []
     for data in result:
