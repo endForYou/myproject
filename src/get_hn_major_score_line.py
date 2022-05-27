@@ -1,3 +1,5 @@
+import time
+
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions import interaction
@@ -27,7 +29,7 @@ class HnMajorScoreLine(Base):
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
         colleges = get_all_colleges_hn(cursor, province="湖南")
-        for i in range(0, 14):
+        for i in range(0, 115):
             self.next_page()
         for i in range(0, 500):
             self.get_one_page_major_score_line(colleges)
@@ -76,7 +78,7 @@ class HnMajorScoreLine(Base):
             else:
                 college = college_element.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/name").text
                 college_name = college.split(" ")[0]
-                if college_name in colleges or college_name == "中央戏剧学院"or college_name == "中国美术学院":
+                if college_name in colleges:
                     continue
                 if college_name not in self.college_list:
                     self.college_list.append(college_name)
@@ -101,7 +103,17 @@ class HnMajorScoreLine(Base):
                 # 默认
                 grade = "本科"
                 science_art = "历史"
-
+                time.sleep(2)
+                if not is_element_present(self.driver,
+                                                     "com.eagersoft.youzy.youzy:id/material_spinner_year"):
+                    # 如果这里没加载出来，直接返回
+                    # 点击从专业分数线回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                    back_element.click()
+                    # 点击从院校详情回退回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                    back_element.click()
+                    continue
                 # 点击本科专科
                 grade = "专科"
                 science_art = "历史"
