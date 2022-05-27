@@ -29,6 +29,8 @@ class HnMajorScoreLine(Base):
         cursor = my_db.get_cursor()
         colleges = get_all_colleges(cursor, province="湖南", data_type="major_score_line")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="湖南", data_type="major_score_line")
+        for i in range(0,190):
+            self.next_page()
         for i in range(0, 500):
             self.get_one_page_major_score_line(colleges, cursor, no_need_colleges)
             self.next_page()
@@ -104,7 +106,17 @@ class HnMajorScoreLine(Base):
                 # 默认
                 grade = "本科"
                 science_art = "历史"
-
+                time.sleep(2)
+                if not is_element_present(self.driver,
+                                                     "com.eagersoft.youzy.youzy:id/material_spinner_year"):
+                    # 如果这里没加载出来，直接返回
+                    # 点击从专业分数线回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                    back_element.click()
+                    # 点击从院校详情回退回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                    back_element.click()
+                    continue
                 # 点击本科专科
                 grade = "专科"
                 science_art = "历史"
