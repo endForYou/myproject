@@ -29,7 +29,7 @@ class HnMajorScoreLine(Base):
         cursor = my_db.get_cursor()
         colleges = get_all_colleges(cursor, province="湖南", data_type="major_score_line")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="湖南", data_type="major_score_line")
-        for i in range(0,190):
+        for i in range(0, 190):
             self.next_page()
         for i in range(0, 500):
             self.get_one_page_major_score_line(colleges, cursor, no_need_colleges)
@@ -99,8 +99,7 @@ class HnMajorScoreLine(Base):
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
                 back_element.click()
             else:
-                # 把college_name 写进数据库
-                insert_data_to_yzy_college(cursor, title_college_name, province, data_type)
+
                 driver.tap([(540, 238), ])
                 # 点击招生方向,先判断有没有招生方向
                 # 默认
@@ -108,15 +107,18 @@ class HnMajorScoreLine(Base):
                 science_art = "历史"
                 time.sleep(2)
                 if not is_element_present(self.driver,
-                                                     "com.eagersoft.youzy.youzy:id/material_spinner_year"):
+                                          "com.eagersoft.youzy.youzy:id/material_spinner_year"):
                     # 如果这里没加载出来，直接返回
                     # 点击从专业分数线回退
+                    # 把college_name 写进数据库
+                    insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
                     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
                     back_element.click()
                     # 点击从院校详情回退回退
                     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
                     back_element.click()
                     continue
+                insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=None)
                 # 点击本科专科
                 grade = "专科"
                 science_art = "历史"
