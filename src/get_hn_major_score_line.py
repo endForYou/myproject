@@ -86,7 +86,7 @@ class HnMajorScoreLine(Base):
                 if college_name in no_need_colleges or college_name in colleges or college_name in self.college_list:
                     continue
 
-                self.college_list.append(college_name)
+
                 college_element.click()
             el15 = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_history")
             el15.click()
