@@ -18,7 +18,7 @@ class HnMajorScoreLine(Base):
         driver = self.driver
 
         time.sleep(10)
-        find_college_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/ll_btn_zdx")
+        find_college_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/iv_logo")
         find_college_element.click()
         # 点击查所有大学
         find_all_college_element = driver.find_element(by=AppiumBy.ID,
@@ -29,10 +29,10 @@ class HnMajorScoreLine(Base):
         cursor = my_db.get_cursor()
         colleges = get_all_colleges(cursor, province="湖南", data_type="major_score_line")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="湖南", data_type="major_score_line")
-        for i in range(0, 190):
+        for i in range(0, 200):
             self.next_page()
         for i in range(0, 500):
-            self.get_one_page_major_score_line(colleges, cursor, no_need_colleges)
+            self.get_one_page_major_score_line(colleges, no_need_colleges)
             self.next_page()
 
         self.driver.quit()
@@ -66,7 +66,9 @@ class HnMajorScoreLine(Base):
                 # 最后需要关闭招生方向的toast
                 driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/iv_close").click()
 
-    def get_one_page_major_score_line(self, colleges, cursor, no_need_colleges):
+    def get_one_page_major_score_line(self, colleges, no_need_colleges):
+        my_db = db.DataBase()
+        cursor = my_db.get_cursor()
         driver = self.driver
         province = "湖南"
         data_type = "major_score_line"
@@ -99,7 +101,8 @@ class HnMajorScoreLine(Base):
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
                 back_element.click()
             else:
-
+                # 把college_name 写进数据库
+                self.college_list.append(title_college_name)
                 driver.tap([(540, 238), ])
                 # 点击招生方向,先判断有没有招生方向
                 # 默认
