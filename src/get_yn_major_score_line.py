@@ -30,7 +30,7 @@ class YnMajorScoreLine(Base):
         colleges = get_all_colleges(cursor, province="云南", data_type="major_score_line")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="云南", data_type="major_score_line")
 
-        for i in range(0, 500):
+        for i in range(0, 600):
             self.get_one_page_major_score_line(colleges, no_need_colleges)
             self.next_page()
 
@@ -104,9 +104,6 @@ class YnMajorScoreLine(Base):
                 self.college_list.append(title_college_name)
                 driver.tap([(540, 238), ])
                 # 点击招生方向,先判断有没有招生方向
-                # 默认
-                grade = "本科"
-                science_art = "历史"
                 time.sleep(2)
                 if not is_element_present(self.driver,
                                           "com.eagersoft.youzy.youzy:id/material_spinner_year"):
@@ -121,27 +118,52 @@ class YnMajorScoreLine(Base):
                     back_element.click()
                     continue
                 insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=None)
+                # 点击招生方向,先判断有没有招生方向
+                grade = "本一"
+                science_art = "理科"
+
                 # 点击本科专科
-                grade = "专科"
-                science_art = "历史"
+                driver.find_element(by=AppiumBy.ID,
+                                    value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
+                driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
+                    1].click()
+
+                grade = "本二"
+                science_art = "理科"
                 driver.find_element(by=AppiumBy.ID,
                                     value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
                 driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
                     1].click()
 
                 grade = "专科"
-                science_art = "物理"
+                science_art = "理科"
+                driver.find_element(by=AppiumBy.ID,
+                                    value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
+                driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
+                    2].click()
+
+                # 点击文科
+                grade = "专科"
+                science_art = "文科"
                 driver.find_element(by=AppiumBy.ID,
                                     value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
                 driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
-                    1].click()
+                    0].click()
 
-                grade = "本科"
-                science_art = "物理"
+                grade = "本一"
+                science_art = "文科"
                 driver.find_element(by=AppiumBy.ID,
                                     value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
                 driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
                     0].click()
+
+                grade = "本二"
+                science_art = "文科"
+                driver.find_element(by=AppiumBy.ID,
+                                    value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
+                # 点击本科
+                driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
+                    1].click()
 
                 # 点击从专业分数线回退
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
@@ -163,5 +185,5 @@ if __name__ == "__main__":
     my_driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
 
     my_driver.implicitly_wait(10)
-    obj = HnMajorScoreLine(my_driver)
+    obj = YnMajorScoreLine(my_driver)
     obj.execute_all()
