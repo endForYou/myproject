@@ -29,7 +29,9 @@ class YnMajorScoreLine(Base):
         cursor = my_db.get_cursor()
         colleges = get_all_colleges(cursor, province="云南", data_type="major_score_line")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="云南", data_type="major_score_line")
+        for i in range(0, 177):
 
+            self.next_page()
         for i in range(0, 600):
             self.get_one_page_major_score_line(colleges, no_need_colleges)
             self.next_page()

@@ -50,3 +50,18 @@ class Base:
             if major_name not in major_name_list:
                 return False
         return True
+
+    def execute_one_tab_major_score_line(self):
+        driver = self.driver
+        if is_element_exist(driver, element="com.eagersoft.youzy.youzy:id/cl_college"):
+
+            enroll_direction_list_count = len(
+                list(driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/college_name")))
+            for i in range(0, enroll_direction_list_count):
+                driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/cl_college").click()
+                enroll_direction = \
+                    driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/college_name")[i]
+                # 点击某个招生方向
+                enroll_direction.click()
+                # 最后需要关闭招生方向的toast
+                driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/iv_close").click()
