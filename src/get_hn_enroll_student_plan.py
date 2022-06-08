@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
     my_driver.implicitly_wait(10)
     obj = HnEnrollStudentPlanLine(my_driver)
-    obj.execute_all()
+    obj.execute_ben()

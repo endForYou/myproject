@@ -169,18 +169,19 @@ class Base:
                 self.college_list.append(title_college_name)
                 # 这里不用点击，因为会直接到招生计划这里
                 # 如果年份没有，则直接返回
-                if not is_element_present(self.driver,
-                                          "com.eagersoft.youzy.youzy:id/material_spinner_year"):
-                    # 如果这里没加载出来，直接返回
-                    # 点击从招生计划回退
-                    # 把college_name 写进数据库
-                    insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
-                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
-                    back_element.click()
-                    # 点击从院校详情回退回退
-                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
-                    back_element.click()
-                    continue
+                # 暂时注释掉这句
+                # if not is_element_present(self.driver,
+                #                           "com.eagersoft.youzy.youzy:id/material_spinner_year"):
+                #     # 如果这里没加载出来，直接返回
+                #     # 点击从招生计划回退
+                #     # 把college_name 写进数据库
+                #     insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
+                #     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                #     back_element.click()
+                #     # 点击从院校详情回退回退
+                #     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                #     back_element.click()
+                #     continue
                 # 如果返回为空，也直接返回
                 if is_element_present(self.driver, "com.eagersoft.youzy.youzy:id/emptyStateContentTextView"):
                     insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
