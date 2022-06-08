@@ -71,7 +71,7 @@ class YnMajorScoreLine(Base):
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
         driver = self.driver
-        province = "云南"
+        province = " "
         data_type = "major_score_line"
         college_list_element_count = len(
             list(driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/menu")))
