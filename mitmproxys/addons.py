@@ -71,10 +71,10 @@ def response(flow):
         text = flow.response.text
         params = flow.request.get_text()
         s = json.loads(text)
-        if not s['result']['professionFractions']:
+        if not s['result']['uCodes']:
             collegeName = None
         else:
-            collegeName = s['result']['professionFractions'][0]['professions'][0]['collegeName']
+            collegeName = s['result']['uCodes'][0]['collegeName']
         try:
             cursor.execute(sql, (enroll_plan_url, text, params, province, collegeName))
         except BaseException:

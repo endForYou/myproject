@@ -135,8 +135,11 @@ class Base:
         driver.find_element(by=AppiumBy.ID,
                             value="com.eagersoft.youzy.youzy:id/click_confirm").click()
 
-    def get_one_page_enroll_plan_of_ben_ngk(self, colleges, no_need_colleges):
+    def get_one_page_enroll_plan_of_ben_ngk(self, colleges, no_need_colleges, province):
         driver = self.driver
+        my_db = db.DataBase()
+        cursor = my_db.get_cursor()
+        data_type = "enroll_plan"
         college_list_element_count = len(
             list(driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/menu")))
         # print(driver.page_source)
@@ -165,17 +168,54 @@ class Base:
             else:
                 self.college_list.append(title_college_name)
                 # 这里不用点击，因为会直接到招生计划这里
-                # 默认
-                grade = "本科"
-                science_art = "历史"
+                # 如果年份没有，则直接返回
+                if not is_element_present(self.driver,
+                                          "com.eagersoft.youzy.youzy:id/material_spinner_year"):
+                    # 如果这里没加载出来，直接返回
+                    # 点击从招生计划回退
+                    # 把college_name 写进数据库
+                    insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                    back_element.click()
+                    # 点击从院校详情回退回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                    back_element.click()
+                    continue
+                # 如果返回为空，也直接返回
+                if is_element_present(self.driver, "com.eagersoft.youzy.youzy:id/emptyStateContentTextView"):
+                    insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                    back_element.click()
+                    # 点击从院校详情回退回退
+                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                    back_element.click()
+                    continue
+                insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=None)
+                time.sleep(1)
+                course_text = driver.find_element(by=AppiumBy.ID,
+                                                  value="com.eagersoft.youzy.youzy:id/material_spinner2_course").text.strip()
+                if course_text == "物理":
+                    # 默认
+                    grade = "本科"
+                    science_art = "物理"
 
-                grade = "本科"
-                science_art = "物理"
-                driver.find_element(by=AppiumBy.ID,
-                                    value="com.eagersoft.youzy.youzy:id/material_spinner2_batch").click()
-                driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
-                    0].click()
+                    grade = "本科"
+                    science_art = "历史"
+                    driver.find_element(by=AppiumBy.ID,
+                                        value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
+                    driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
+                        1].click()
+                else:
+                    # 默认
+                    grade = "本科"
+                    science_art = "历史"
 
+                    grade = "本科"
+                    science_art = "物理"
+                    driver.find_element(by=AppiumBy.ID,
+                                        value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
+                    driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
+                        0].click()
                 # 点击从专业分数线回退
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
                 back_element.click()
