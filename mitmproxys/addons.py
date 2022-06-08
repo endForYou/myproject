@@ -10,7 +10,7 @@ db = pymysql.connect(user="root", password="rYa+wq10dFTWzYz8FeZgsWRygyKfLKULSRdK
 
 cursor = db.cursor(pymysql.cursors.DictCursor)
 
-sql = "insert into yzy_enroll_major_score_line_json_hn(url,json_data,params,province,collegeName) values (%s,%s,%s,%s,%s)"
+sql = "insert into yzy_data_json(url,json_data,params,province,collegeName) values (%s,%s,%s,%s,%s)"
 college_sql = "insert into yzy_college_json_2022_new(url,json_data,params,province) values (%s,%s,%s,%s)"
 
 # college_sql = """
@@ -31,7 +31,6 @@ province = "湖南"
 
 def response(flow):
     enroll_plan_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.datalib.api.enrolldata.plan.query'
-
     major_score_line_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.datalib.api.enrolldata.enter.profession.v2.get'
     college_score_line_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.datalib.api.enrolldata.enter.college.v2.get'
     college_url = 'https://uwf4ce19ca8fcd150a4.youzy.cn/youzy.dms.basiclib.api.college.query'
@@ -47,8 +46,27 @@ def response(flow):
     collegeName = ""
     # print(flow.request.get_text())
     if flow.request.url.startswith(major_score_line_url):
-
-        print(major_score_line_url)
+        pass
+        #
+        # print(major_score_line_url)
+        #
+        # text = flow.response.text
+        # params = flow.request.get_text()
+        # s = json.loads(text)
+        # if not s['result']['professionFractions']:
+        #     collegeName = None
+        # else:
+        #     collegeName = s['result']['professionFractions'][0]['professions'][0]['collegeName']
+        # try:
+        #     cursor.execute(sql, (major_score_line_url, text, params, province, collegeName))
+        # except BaseException:
+        #     db1 = pymysql.connect(user="root", password="rYa+wq10dFTWzYz8FeZgsWRygyKfLKULSRdKfRnEgSk=",
+        #                           host="119.91.135.29", port=3306, database="zhiyuan_sd",
+        #                           charset="utf8", autocommit=True)
+        #     cursor1 = db1.cursor(pymysql.cursors.DictCursor)
+        #     cursor1.execute(sql, (major_score_line_url, text, params, province, collegeName))
+    elif flow.request.url.startswith(enroll_plan_url):
+        print(enroll_plan_url)
 
         text = flow.response.text
         params = flow.request.get_text()
@@ -58,13 +76,13 @@ def response(flow):
         else:
             collegeName = s['result']['professionFractions'][0]['professions'][0]['collegeName']
         try:
-            cursor.execute(sql, (major_score_line_url, text, params, province, collegeName))
+            cursor.execute(sql, (enroll_plan_url, text, params, province, collegeName))
         except BaseException:
             db1 = pymysql.connect(user="root", password="rYa+wq10dFTWzYz8FeZgsWRygyKfLKULSRdKfRnEgSk=",
                                   host="119.91.135.29", port=3306, database="zhiyuan_sd",
                                   charset="utf8", autocommit=True)
             cursor1 = db1.cursor(pymysql.cursors.DictCursor)
-            cursor1.execute(sql, (major_score_line_url, text, params, province, collegeName))
+            cursor1.execute(sql, (enroll_plan_url, text, params, province, collegeName))
     elif flow.request.url.startswith(college_detail_url):
         pass
         # print(college_detail_url)
