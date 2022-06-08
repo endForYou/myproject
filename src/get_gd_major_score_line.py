@@ -23,6 +23,7 @@ class HnMajorScoreLine(Base):
         find_all_college_element = driver.find_element(by=AppiumBy.ID,
                                                        value="com.eagersoft.youzy.youzy:id/click_all_college")
         find_all_college_element.click()
+        # 点击筛选本科
         time.sleep(3)
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
@@ -44,6 +45,12 @@ class HnMajorScoreLine(Base):
         find_all_college_element = driver.find_element(by=AppiumBy.ID,
                                                        value="com.eagersoft.youzy.youzy:id/click_all_college")
         find_all_college_element.click()
+        # 本科
+        choose_element=driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_filter").click()
+        batch_element =driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/batch").find_elements(
+            by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/textView")[1].click()
+        confirm_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_confirm").click()
+
         time.sleep(3)
         my_db = db.DataBase()
         cursor = my_db.get_cursor()
@@ -223,4 +230,4 @@ if __name__ == "__main__":
 
     my_driver.implicitly_wait(10)
     obj = HnMajorScoreLine(my_driver)
-    obj.execute_all()
+    obj.execute_ben()
