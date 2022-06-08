@@ -183,7 +183,8 @@ class Base:
                 #     back_element.click()
                 #     continue
                 # 如果返回为空，也直接返回
-                if is_element_present(self.driver, "com.eagersoft.youzy.youzy:id/emptyStateContentTextView"):
+                # if is_element_present(self.driver, "com.eagersoft.youzy.youzy:id/emptyStateContentTextView"):
+                if not is_element_present(self.driver,"com.eagersoft.youzy.youzy:id/tv_choose:")
                     insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
                     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
                     back_element.click()
