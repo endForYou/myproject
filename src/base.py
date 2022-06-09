@@ -153,19 +153,14 @@ class Base:
                 if college_name in no_need_colleges or college_name in colleges or college_name in self.college_list:
                     continue
                 college_element.click()
-            el15 = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_enter_plan")
-            el15.click()
-            # 点击专业分数线tab
-
-            title_college_name = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/title").text
+            title_college_name = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_name").text
             if title_college_name in no_need_colleges or title_college_name in colleges or title_college_name in self.college_list:
-                # 点击从专业分数线回退
-                back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
-                back_element.click()
                 # 点击从院校详情回退回退
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
                 back_element.click()
             else:
+                el15 = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_enter_plan")
+                el15.click()
                 self.college_list.append(title_college_name)
                 # 这里不用点击，因为会直接到招生计划这里
                 # 如果年份没有，则直接返回
