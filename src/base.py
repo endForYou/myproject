@@ -179,14 +179,16 @@ class Base:
                 #     continue
                 # 如果返回为空，也直接返回
                 # if is_element_present(self.driver, "com.eagersoft.youzy.youzy:id/emptyStateContentTextView"):
-                if not is_element_present(self.driver,"com.eagersoft.youzy.youzy:id/tv_choose"):
-                    insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
-                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
-                    back_element.click()
-                    # 点击从院校详情回退回退
-                    back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
-                    back_element.click()
-                    continue
+
+                # if not is_element_present(self.driver,"com.eagersoft.youzy.youzy:id/tv_choose"):
+                #     insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=1)
+                #     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
+                #     back_element.click()
+                #     # 点击从院校详情回退回退
+                #     back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/click_back")
+                #     back_element.click()
+                #     continue
+
                 insert_data_to_yzy_college(cursor, title_college_name, province, data_type, is_no_need_crawl=None)
                 time.sleep(1)
                 course_text = driver.find_element(by=AppiumBy.ID,
