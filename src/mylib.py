@@ -58,7 +58,7 @@ def insert_data_to_major_score_line(cursor: pymysql.cursors.DictCursor, params: 
 
 def insert_data_to_yzy_college(cursor: pymysql.cursors.DictCursor, college_name, province, data_type,is_no_need_crawl):
     params = (college_name, province, data_type,is_no_need_crawl)
-    college_sql = "insert into yzy_college_crawl(college_name,provinceName,data_type,is_no_need_crawl) values (%s,%s,%s,%s)"
+    college_sql = "insert into yzy_college_crawl(collegeName,provinceName,data_type,is_no_need_crawl) values (%s,%s,%s,%s)"
     cursor.execute(college_sql, params)
 
 def get_all_colleges(cursor: pymysql.cursors.DictCursor, province, data_type):
