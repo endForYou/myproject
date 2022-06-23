@@ -61,7 +61,6 @@ def insert_data_to_yzy_college(cursor: pymysql.cursors.DictCursor, college_name,
     college_sql = "insert into yzy_college_crawl(collegeName,provinceName,data_type,is_no_need_crawl) values (%s,%s,%s,%s)"
     cursor.execute(college_sql, params)
 
-
 def get_all_colleges(cursor: pymysql.cursors.DictCursor, province, data_type):
     sql = "select distinct collegeName from yzy_college_crawl where provinceName=%s and data_type=%s"
     cursor.execute(sql, (province, data_type))
