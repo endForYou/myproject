@@ -32,7 +32,7 @@ class HnEnrollStudentPlanLine(Base):
         province="湖南"
         colleges = get_all_colleges(cursor, province=province, data_type="enroll_plan")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province=province, data_type="enroll_plan")
-        for i in range(0, 85):
+        for i in range(0, 139):
             self.next_page()
         for i in range(0, 500):
             self.get_one_page_enroll_plan_of_ben_ngk(colleges, no_need_colleges, province)
