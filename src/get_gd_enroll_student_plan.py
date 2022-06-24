@@ -33,9 +33,8 @@ class GdEnrollStudentPlanLine(Base):
         cursor = my_db.get_cursor()
         colleges = get_all_colleges(cursor, province="广东", data_type="enroll_plan")
         no_need_colleges = get_all_colleges_of_no_need(cursor, province="广东", data_type="enroll_plan")
-        for i in range(0, 146):
-            self.next_page()
-        for i in range(0, 500):
+
+        for i in range(0, 400):
             self.get_one_page_enroll_student_plan(colleges, no_need_colleges)
             self.next_page()
 
@@ -95,7 +94,7 @@ class GdEnrollStudentPlanLine(Base):
                     driver.find_element(by=AppiumBy.ID,
                                         value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
                     driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
-                        1].click()
+                        0].click()
                 else:
                     # 默认
                     grade = "本科"
@@ -109,7 +108,7 @@ class GdEnrollStudentPlanLine(Base):
                     driver.find_element(by=AppiumBy.ID,
                                         value="com.eagersoft.youzy.youzy:id/material_spinner2_course").click()
                     driver.find_elements(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/tv_tinted_spinner")[
-                        0].click()
+                        1].click()
                 # 点击从专业分数线回退
                 back_element = driver.find_element(by=AppiumBy.ID, value="com.eagersoft.youzy.youzy:id/leftBackImg")
                 back_element.click()
